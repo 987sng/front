@@ -11,6 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { Card, CardContent } from '@mui/material';
 
 // project imports
 import MainCard from 'components/MainCard';
@@ -20,16 +21,13 @@ import ReportAreaChart from 'sections/dashboard/default/ReportAreaChart';
 import UniqueVisitorCard from 'sections/dashboard/default/UniqueVisitorCard';
 import SaleReportCard from 'sections/dashboard/default/SaleReportCard';
 import OrdersTable from 'sections/dashboard/default/OrdersTable';
+import DottedGlobe from 'components/InteractiveDottedGlobe';
+import NetworkTopology from 'components/NetworkTopology';
 
 // assets
 import GiftOutlined from '@ant-design/icons/GiftOutlined';
 import MessageOutlined from '@ant-design/icons/MessageOutlined';
 import SettingOutlined from '@ant-design/icons/SettingOutlined';
-
-import avatar1 from 'assets/images/users/avatar-1.png';
-import avatar2 from 'assets/images/users/avatar-2.png';
-import avatar3 from 'assets/images/users/avatar-3.png';
-import avatar4 from 'assets/images/users/avatar-4.png';
 
 // avatar style
 const avatarSX = {
@@ -48,56 +46,91 @@ const actionSX = {
   transform: 'none'
 };
 
+// Network topology sample data for security monitoring
+const networkData = {
+  nodes: [
+    { id: 'Internet', group: 1 },
+    { id: 'Firewall', group: 2 },
+    { id: 'DMZ-Server', group: 3 },
+    { id: 'Core-Switch', group: 4 },
+    { id: 'Web-Server', group: 5 },
+    { id: 'DB-Server', group: 5 },
+    { id: 'Admin-PC', group: 6 },
+    { id: 'User-PC-1', group: 6 },
+    { id: 'User-PC-2', group: 6 },
+    { id: 'IDS/IPS', group: 7 }
+  ],
+  links: [
+    { source: 'Internet', target: 'Firewall' },
+    { source: 'Firewall', target: 'DMZ-Server' },
+    { source: 'Firewall', target: 'Core-Switch' },
+    { source: 'Core-Switch', target: 'Web-Server' },
+    { source: 'Core-Switch', target: 'DB-Server' },
+    { source: 'Core-Switch', target: 'Admin-PC' },
+    { source: 'Core-Switch', target: 'User-PC-1' },
+    { source: 'Core-Switch', target: 'User-PC-2' },
+    { source: 'Core-Switch', target: 'IDS/IPS' },
+    { source: 'Web-Server', target: 'DB-Server' }
+  ]
+};
+
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
 export default function DashboardDefault() {
   return (
-    <Grid container rowSpacing={4.5} columnSpacing={2.75}>
-      {/* row 1 */}
+    <Grid container rowSpacing={6} columnSpacing={3}>
+      {/* row 1 - Header */}
       <Grid sx={{ mb: -2.25 }} size={12}>
-        <Typography variant="h5">Dashboard</Typography>
+        <Typography variant="h5">보안 모니터링 대시보드</Typography>
+      </Grid>
+      
+      {/* row 2 - Statistics Cards */}
+      <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+        <AnalyticEcommerce title="일일 총 네트워크 공격" count="4,42,236" percentage={59.3} extra="35,000" />
       </Grid>
       <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <AnalyticEcommerce title="Total Page Views" count="4,42,236" percentage={59.3} extra="35,000" />
+        <AnalyticEcommerce title="일일 한국 네트워크 공격" count="78,250" percentage={70.5} extra="8,900" />
       </Grid>
       <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <AnalyticEcommerce title="Total Users" count="78,250" percentage={70.5} extra="8,900" />
+        <AnalyticEcommerce title="일일 외부 네트워크 정보" count="18,800" percentage={27.4} isLoss color="warning" extra="1,943" />
       </Grid>
       <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <AnalyticEcommerce title="Total Order" count="18,800" percentage={27.4} isLoss color="warning" extra="1,943" />
+        <AnalyticEcommerce title="일일 내부 네트워크 정보" count="35,078" percentage={27.4} isLoss color="warning" extra="20,395" />
       </Grid>
-      <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <AnalyticEcommerce title="Total Sales" count="35,078" percentage={27.4} isLoss color="warning" extra="20,395" />
+      
+      {/* row 3 - Network Topology and Globe */}
+      <Grid size={{ xs: 12, md: 6, lg: 6 }}>
+        <Card sx={{ borderRadius: 4, boxShadow: 6 }}>
+          <CardContent>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              네트워크 토폴로지
+            </Typography>
+            <NetworkTopology data={networkData} />
+          </CardContent>
+        </Card>
       </Grid>
-      <Grid sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} size={{ md: 8 }} />
-      {/* row 2 */}
-      <Grid size={{ xs: 12, md: 7, lg: 8 }}>
+
+      <Grid size={{ xs: 12, md: 6, lg: 6 }}>
+        <Card sx={{ borderRadius: 4, boxShadow: 6 }}>
+          <CardContent>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              글로벌 공격 현황
+            </Typography>
+            <DottedGlobe />
+          </CardContent>
+        </Card>
+      </Grid>
+            
+      {/* row 4 - Visitor Stats */}
+      <Grid size={{ xs: 12, md: 12, lg: 12 }}>
         <UniqueVisitorCard />
       </Grid>
-      <Grid size={{ xs: 12, md: 5, lg: 4 }}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid>
-            <Typography variant="h5">Income Overview</Typography>
-          </Grid>
-          <Grid />
-        </Grid>
-        <MainCard sx={{ mt: 2 }} content={false}>
-          <Box sx={{ p: 3, pb: 0 }}>
-            <Stack sx={{ gap: 2 }}>
-              <Typography variant="h6" color="text.secondary">
-                This Week Statistics
-              </Typography>
-              <Typography variant="h3">$7,650</Typography>
-            </Stack>
-          </Box>
-          <MonthlyBarChart />
-        </MainCard>
-      </Grid>
-      {/* row 3 */}
+      
+      {/* row 5 - Network Attacks Table and Analytics */}
       <Grid size={{ xs: 12, md: 7, lg: 8 }}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid>
-            <Typography variant="h5">Recent Orders</Typography>
+            <Typography variant="h5">네트워크 공격 현황</Typography>
           </Grid>
           <Grid />
         </Grid>
@@ -105,146 +138,30 @@ export default function DashboardDefault() {
           <OrdersTable />
         </MainCard>
       </Grid>
+
       <Grid size={{ xs: 12, md: 5, lg: 4 }}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid>
-            <Typography variant="h5">Analytics Report</Typography>
+            <Typography variant="h5">보안 분석 리포트</Typography>
           </Grid>
           <Grid />
         </Grid>
         <MainCard sx={{ mt: 2 }} content={false}>
           <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
             <ListItemButton divider>
-              <ListItemText primary="Company Finance Growth" />
-              <Typography variant="h5">+45.14%</Typography>
+              <ListItemText primary="시스템 보안 강화율" />
+              <Typography variant="h5" color="success.main">+45.14%</Typography>
             </ListItemButton>
             <ListItemButton divider>
-              <ListItemText primary="Company Expenses Ratio" />
-              <Typography variant="h5">0.58%</Typography>
+              <ListItemText primary="취약점 발견율" />
+              <Typography variant="h5" color="warning.main">0.58%</Typography>
             </ListItemButton>
             <ListItemButton>
-              <ListItemText primary="Business Risk Cases" />
-              <Typography variant="h5">Low</Typography>
+              <ListItemText primary="전체 보안 위험도" />
+              <Typography variant="h5" color="success.main">Low</Typography>
             </ListItemButton>
           </List>
           <ReportAreaChart />
-        </MainCard>
-      </Grid>
-      {/* row 4 */}
-      <Grid size={{ xs: 12, md: 7, lg: 8 }}>
-        <SaleReportCard />
-      </Grid>
-      <Grid size={{ xs: 12, md: 5, lg: 4 }}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid>
-            <Typography variant="h5">Transaction History</Typography>
-          </Grid>
-          <Grid />
-        </Grid>
-        <MainCard sx={{ mt: 2 }} content={false}>
-          <List
-            component="nav"
-            sx={{
-              px: 0,
-              py: 0,
-              '& .MuiListItemButton-root': {
-                py: 1.5,
-                px: 2,
-                '& .MuiAvatar-root': avatarSX,
-                '& .MuiListItemSecondaryAction-root': { ...actionSX, position: 'relative' }
-              }
-            }}
-          >
-            <ListItem
-              component={ListItemButton}
-              divider
-              secondaryAction={
-                <Stack sx={{ alignItems: 'flex-end' }}>
-                  <Typography variant="subtitle1" noWrap>
-                    + $1,430
-                  </Typography>
-                  <Typography variant="h6" color="secondary" noWrap>
-                    78%
-                  </Typography>
-                </Stack>
-              }
-            >
-              <ListItemAvatar>
-                <Avatar sx={{ color: 'success.main', bgcolor: 'success.lighter' }}>
-                  <GiftOutlined />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={<Typography variant="subtitle1">Order #002434</Typography>} secondary="Today, 2:00 AM" />
-            </ListItem>
-            <ListItem
-              component={ListItemButton}
-              divider
-              secondaryAction={
-                <Stack sx={{ alignItems: 'flex-end' }}>
-                  <Typography variant="subtitle1" noWrap>
-                    + $302
-                  </Typography>
-                  <Typography variant="h6" color="secondary" noWrap>
-                    8%
-                  </Typography>
-                </Stack>
-              }
-            >
-              <ListItemAvatar>
-                <Avatar sx={{ color: 'primary.main', bgcolor: 'primary.lighter' }}>
-                  <MessageOutlined />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={<Typography variant="subtitle1">Order #984947</Typography>} secondary="5 August, 1:45 PM" />
-            </ListItem>
-            <ListItem
-              component={ListItemButton}
-              secondaryAction={
-                <Stack sx={{ alignItems: 'flex-end' }}>
-                  <Typography variant="subtitle1" noWrap>
-                    + $682
-                  </Typography>
-                  <Typography variant="h6" color="secondary" noWrap>
-                    16%
-                  </Typography>
-                </Stack>
-              }
-            >
-              <ListItemAvatar>
-                <Avatar sx={{ color: 'error.main', bgcolor: 'error.lighter' }}>
-                  <SettingOutlined />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={<Typography variant="subtitle1">Order #988784</Typography>} secondary="7 hours ago" />
-            </ListItem>
-          </List>
-        </MainCard>
-        <MainCard sx={{ mt: 2 }}>
-          <Stack sx={{ gap: 3 }}>
-            <Grid container justifyContent="space-between" alignItems="center">
-              <Grid>
-                <Stack>
-                  <Typography variant="h5" noWrap>
-                    Help & Support Chat
-                  </Typography>
-                  <Typography variant="caption" color="secondary" noWrap>
-                    Typical replay within 5 min
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid>
-                <AvatarGroup sx={{ '& .MuiAvatar-root': { width: 32, height: 32 } }}>
-                  <Avatar alt="Remy Sharp" src={avatar1} />
-                  <Avatar alt="Travis Howard" src={avatar2} />
-                  <Avatar alt="Cindy Baker" src={avatar3} />
-                  <Avatar alt="Agnes Walker" src={avatar4} />
-                </AvatarGroup>
-              </Grid>
-            </Grid>
-            <Button size="small" variant="contained" sx={{ textTransform: 'capitalize' }}>
-              Need Help?
-            </Button>
-          </Stack>
         </MainCard>
       </Grid>
     </Grid>

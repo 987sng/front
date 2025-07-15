@@ -24,11 +24,10 @@ import MainCard from 'components/MainCard';
 import Transitions from 'components/@extended/Transitions';
 import IconButton from 'components/@extended/IconButton';
 
-// assets
+// icons
 import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
 import SettingOutlined from '@ant-design/icons/SettingOutlined';
 import UserOutlined from '@ant-design/icons/UserOutlined';
-import avatar1 from 'assets/images/users/avatar-1.png';
 
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
@@ -65,7 +64,6 @@ export default function Profile() {
   };
 
   const [value, setValue] = useState(0);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -79,7 +77,7 @@ export default function Profile() {
           borderRadius: 1,
           '&:hover': { bgcolor: 'secondary.lighter' },
           '&:focus-visible': { outline: `2px solid ${theme.palette.secondary.dark}`, outlineOffset: 2 },
-          ...theme.applyStyles('dark', { bgcolor: open ? 'background.default' : 'transparent', '&:hover': { bgcolor: 'secondary.light' } })
+          ...theme.applyStyles?.('dark', { bgcolor: open ? 'background.default' : 'transparent', '&:hover': { bgcolor: 'secondary.light' } })
         })}
         aria-label="open profile"
         ref={anchorRef}
@@ -88,7 +86,7 @@ export default function Profile() {
         onClick={handleToggle}
       >
         <Stack direction="row" sx={{ gap: 1.25, alignItems: 'center', p: 0.5 }}>
-          <Avatar alt="profile user" src={avatar1} size="sm" />
+
           <Typography variant="subtitle1" sx={{ textTransform: 'capitalize' }}>
             John Doe
           </Typography>
@@ -121,7 +119,7 @@ export default function Profile() {
                     <Grid container justifyContent="space-between" alignItems="center">
                       <Grid>
                         <Stack direction="row" sx={{ gap: 1.25, alignItems: 'center' }}>
-                          <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
+
                           <Stack>
                             <Typography variant="h6">John Doe</Typography>
                             <Typography variant="body2" color="text.secondary">
