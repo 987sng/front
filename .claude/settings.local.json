@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/dshin/Desktop/미래도전/Mido_Visualization/**)",
+      "Bash(npm install:*)",
+      "Bash(npm start)",
+      "Bash(npm uninstall:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd /c taskkill:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

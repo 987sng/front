@@ -2,10 +2,11 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import jsconfigPaths from 'vite-jsconfig-paths';
 import path from 'path'; // 반드시 필요
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const API_URL = `${env.VITE_APP_BASE_NAME}`;
+  const API_URL = env.VITE_APP_BASE_NAME || '/';
   const PORT = 3000;
 
   return {
@@ -19,7 +20,8 @@ export default defineConfig(({ mode }) => {
       host: true
     },
     define: {
-      global: 'window'
+      global: 'window',
+      CESIUM_BASE_URL: JSON.stringify('/cesium/')
     },
     resolve: {
       alias: [
@@ -28,7 +30,30 @@ export default defineConfig(({ mode }) => {
         { find: 'components', replacement: path.resolve(__dirname, 'src/components') }
       ]
     },
-    base: API_URL,
-    plugins: [react(), jsconfigPaths()]
+    base: '/',
+    plugins: [
+      react(),
+      jsconfigPaths(),
+      viteStaticCopy({
+        targets: [
+          {
+            src: 'node_modules/cesium/Build/Cesium/Workers',
+            dest: 'cesium'
+          },
+          {
+            src: 'node_modules/cesium/Build/Cesium/ThirdParty',
+            dest: 'cesium'
+          },
+          {
+            src: 'node_modules/cesium/Build/Cesium/Assets',
+            dest: 'cesium'
+          },
+          {
+            src: 'node_modules/cesium/Build/Cesium/Widgets',
+            dest: 'cesium'
+          }
+        ]
+      })
+    ]
   };
 });

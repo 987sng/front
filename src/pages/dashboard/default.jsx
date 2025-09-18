@@ -21,8 +21,8 @@ import ReportAreaChart from 'sections/dashboard/default/ReportAreaChart';
 import UniqueVisitorCard from 'sections/dashboard/default/UniqueVisitorCard';
 import SaleReportCard from 'sections/dashboard/default/SaleReportCard';
 import OrdersTable from 'sections/dashboard/default/OrdersTable';
-import DottedGlobe from 'components/InteractiveDottedGlobe';
-import NetworkTopology from 'components/NetworkTopology';
+import EarthGlobe from 'components/EarthGlobe';
+import InternalNetwork from 'components/InternalNetwork';
 
 // assets
 import GiftOutlined from '@ant-design/icons/GiftOutlined';
@@ -97,30 +97,34 @@ export default function DashboardDefault() {
       <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
         <AnalyticEcommerce title="일일 내부 네트워크 정보" count="35,078" percentage={27.4} isLoss color="warning" extra="20,395" />
       </Grid>
-      
-      {/* row 3 - Network Topology and Globe */}
-      <Grid size={{ xs: 12, md: 6, lg: 6 }}>
-        <Card sx={{ borderRadius: 4, boxShadow: 6 }}>
-          <CardContent>
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              네트워크 토폴로지
-            </Typography>
-            <NetworkTopology data={networkData} />
-          </CardContent>
-        </Card>
-      </Grid>
 
       <Grid size={{ xs: 12, md: 6, lg: 6 }}>
-        <Card sx={{ borderRadius: 4, boxShadow: 6 }}>
-          <CardContent>
+        <Card sx={{ borderRadius: 4, boxShadow: 6, height: 900 }}>
+          <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             <Typography variant="h6" sx={{ mb: 2 }}>
               글로벌 공격 현황
             </Typography>
-            <DottedGlobe />
+            <Box sx={{ flex: 1, height: 400 }}>
+              <EarthGlobe />
+            </Box>
           </CardContent>
         </Card>
       </Grid>
-            
+          
+      {/* row 3 - Network Topology and Globe */}
+      <Grid size={{ xs: 12, md: 6, lg: 6 }}>
+        <Card sx={{ borderRadius: 4, boxShadow: 6, height: 900 }}>
+          <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              네트워크 토폴로지
+            </Typography>
+            <Box sx={{ flex: 1, height: 600 }}>
+              <InternalNetwork />
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
+        
       {/* row 4 - Visitor Stats */}
       <Grid size={{ xs: 12, md: 12, lg: 12 }}>
         <UniqueVisitorCard />
